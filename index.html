@@ -38,6 +38,9 @@
     <select name='definition'>
       <option disabled>Pyramids</option>
       <option value='ucfPyramid'>UCF Pyramid</option>
+      <option value='revisedPyramid'>Revised Pyramid - Beta</option>
+      <option value='starter'>Starter Kit - Beta</option>
+
     </select>
     <select name='format'>
       <option disabled>Metric Format</option>
@@ -56,6 +59,7 @@
       <span style="color:goldenrod;">◼</span> 50-100% |
       <span style="color:darkgreen;">◼</span> 100%+
     </div>
+    <span class='warn'>*</span> Prefer Tremola/Lunaire over Mammon when possible
   </div>
   <div style="display:flex;">
     <div class="render"></div>
@@ -193,8 +197,8 @@
     input[type=file]{padding:8px;margin:0 auto 12px auto;}
     input[type=file]:hover{background:#222;}
 
-    /* Parka */
-    #pyramid div.item[title="Caoivish Parka"]::after{
+    /* Mammons/Trems */
+    #pyramid div.item[title="Tremola Grenade GPb-1"]::after{
       display: block;
         content: "*";
         color: #66bee1;
