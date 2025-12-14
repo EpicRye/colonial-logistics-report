@@ -508,22 +508,6 @@ function outputTotals() {
   }
 
   const pyramidDefs = {}
-  pyramidDefs.fmat = [
-    [['SoldierSupplies', 200], ['Cloth', 1500]],
-    [['RifleLightW,RifleW', 100], ['RifleAmmo', 200], ['Bandages', 200]],
-    [['ATGrenadeW,StickyBomb', 60], ['GreenAsh', 100], ['FirstAidKit', 30], ['TraumaKit', 30], ['BloodPlasma', 150], ['MedicUniformW', 30]],
-    [['HEGrenade', 80], ['GasMask', 60], ['GasMaskFilter', 100], ['SMGW', 60], ['SMGAmmo', 160], ['GrenadeW', 80], ['WorkWrench', 20], ['SnowUniformW', 20]],
-    [['RpgW,RPGTW', 15], ['RpgAmmo', 75], ['ATRPGW,ATRifleW', 15], ['ATRPGIndirectAmmo,ATRifleAmmo', 60], ['Tripod', 20], ['Shovel', 20], ['AmmoUniformW', 30]],
-    [['MGW,MGTW', 10], ['MGAmmo', 60], ['RifleLongW', 30], ['Bayonet', 60], ['GrenadeAdapter', 20], ['Radio', 25], ['Binoculars', 20], ['ATAmmo', 60]],
-    [['Mortar', 15], ['MortarAmmo', 100], ['MortarAmmoFL', 100], ['MortarAmmoSH', 50], ['ATRPGTW', 10], ['LightTankAmmo', 100], ['TankUniformW', 30]],
-    [['AssaultRifleW', 30], ['AssaultRifleAmmo', 80], ['TankMine', 50], ['BarbedWireMaterials', 40], ['SandbagMaterials',  40],  ['SatchelChargeW', 40], ['SmokeGrenade', 40], ['ScoutUniformW', 15]],
-  ];
-  pyramidDefs.fmatBasic = [
-    [['SoldierSupplies', 100], ['Cloth', 1000]],
-    [['RifleW', 60], ['RifleAmmo', 120], ['Bandages', 100]],
-    [['StickyBomb', 30], ['GreenAsh', 40], ['FirstAidKit', 10], ['TraumaKit', 10], ['BloodPlasma', 50], ['MedicUniformW', 15]],
-    [['HEGrenade', 40], ['GasMask', 20], ['GasMaskFilter', 40], ['SMGW', 20], ['SMGAmmo', 80], ['GrenadeW', 40], ['WorkWrench', 10]],
-  ];
   pyramidDefs.ucfPyramid = [
     [['SoldierSupplies', 300], ['Cloth', 3000]],
     [['RifleC', 100], ['RifleAmmo', 200], ['Bandages', 200], ['GrenadeC', 100]],
@@ -533,7 +517,7 @@ function outputTotals() {
     [['GrenadeLauncherC', 20], ['HELaunchedGrenade', 100],['GrenadeUniformC', 50], ['LightTankAmmo', 100], ['TankUniformC', 60], ['WorkWrench', 20], ['Binoculars', 20], ['AssaultRifleHeavyC', 50], ['AssaultRifleAmmo', 100]],
     [['TankMine', 50], ['BarbedWireMaterials', 40], ['SandbagMaterials',  40], ['ATAmmo', 100], ['Tripod', 20], ['MGTC,ISGTC', 20], ['ScoutUniformC', 60], ['SmokeGrenade',60], ['RadioBackpack',10]],
   ];
-  const pyramidDef = pyramidDefs[definition] || pyramidDefs.fmat;
+  const pyramidDef = pyramidDefs[definition] || pyramidDefs.ucfPyramid;
   pyramidDef.map(row => {
     const rowDiv = document.createElement('div');
     rowDiv.classList.add('row');
