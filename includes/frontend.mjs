@@ -524,7 +524,15 @@ function outputTotals() {
     [['StickyBomb', 30], ['GreenAsh', 40], ['FirstAidKit', 10], ['TraumaKit', 10], ['BloodPlasma', 50], ['MedicUniformW', 15]],
     [['HEGrenade', 40], ['GasMask', 20], ['GasMaskFilter', 40], ['SMGW', 20], ['SMGAmmo', 80], ['GrenadeW', 40], ['WorkWrench', 10]],
   ];
-
+  pyramidDefs.ucfPyramid = [
+    [['SoldierSupplies', 300], ['Cloth', 3000]],
+    [['RifleC', 100], ['RifleAmmo', 200], ['Bandages', 200], ['GrenadeC', 100]],
+    [['ATRPGLightC,StickyBomb', 60], ['FirstAidKit', 20], ['TraumaKit', 20], ['BloodPlasma', 150], ['MedicUniformC', 60]],
+    [['Bayonet', 100], ['HEGrenade', 100], ['GasMask', 50], ['GasMaskFilter', 100], ['SMGC', 50], ['SMGAmmo', 100], ['GreenAsh', 50]],
+    [['ATRPGC,ATRPGHeavyC', 20], ['ATRPGAmmo', 60], ['Shovel', 20], ['Radio', 20], ['AssaultRifleC,MGC', 20], ['MGAmmo', 100], ['EngineerUniformC', 30]],
+    [['GrenadeLauncherC', 20], ['HELaunchedGrenade', 100],['GrenadeUniformC', 50], ['LightTankAmmo', 100], ['TankUniformC', 60], ['WorkWrench', 20], ['Binoculars', 20], ['AssaultRifleHeavyC', 50], ['AssaultRifleAmmo', 100]],
+    [['TankMine', 50], ['BarbedWireMaterials', 40], ['SandbagMaterials',  40], ['ATAmmo', 100], ['Tripod', 20], ['MGTC,ISGTC', 20], ['ScoutUniformC', 60], ['SmokeGrenade',60], ['RadioBackpack',10]],
+  ];
   const pyramidDef = pyramidDefs[definition] || pyramidDefs.fmat;
   pyramidDef.map(row => {
     const rowDiv = document.createElement('div');
