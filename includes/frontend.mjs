@@ -428,6 +428,32 @@ function outputTotals() {
     [['GrenadeLauncherC', 20], ['HELaunchedGrenade', 100],['GrenadeUniformC', 50], ['LightTankAmmo', 100], ['TankUniformC', 60], ['WorkWrench', 20], ['Binoculars', 20], ['AssaultRifleHeavyC', 50], ['AssaultRifleAmmo', 100]],
     [['TankMine', 50], ['BarbedWireMaterials', 40], ['SandbagMaterials',  40], ['ATAmmo', 100], ['Tripod', 20], ['MGTC,ISGTC', 20], ['ScoutUniformC', 60], ['SmokeGrenade',60], ['RadioBackpack',10]],
   ];
+    pyramidDefs.revisedPyramid = [
+    [['SoldierSupplies', 300], ['Cloth', 3000]],
+    [['RifleC', 100], ['RifleAmmo', 200], ['Bandages', 200], ['GrenadeC', 100]],
+    [['ATRPGLightC,StickyBomb', 60], ['FirstAidKit', 20], ['TraumaKit', 20], ['BloodPlasma', 150], ['MedicUniformC', 60]],
+    [['HEGrenade,HELaunchedGrenade', 100],['GrenadeLauncherC', 20],['RifleAutomaticC', 60],['SMGC', 50], ['SMGAmmo', 100], ['Binoculars', 20]],
+    [['ATRPGC,ATRPGHeavyC', 20], ['ATRPGAmmo', 60], ['Shovel', 20], ['Radio', 20], ['MGC', 20], ['MGAmmo', 100], ['GasMask', 50], ['GasMaskFilter', 100],],
+    [['GreenAsh', 50],['GrenadeUniformC', 50], ['AssaultRifleHeavyC', 50], ['AssaultRifleAmmo', 100],['ArmourUniformC', 60],['LightTankAmmo', 100], ['TankUniformC', 60], ['WorkWrench', 20],['EngineerUniformC', 30]],
+    [['TankMine', 50], ['BarbedWireMaterials', 40], ['SandbagMaterials',  40], ['ATAmmo', 100], ['Tripod', 20], ['MGTC,ISGTC', 20], ['ScoutUniformC', 60], ['SmokeGrenade',60], ['RadioBackpack',10],['ATRifleSniperC', 10],['Bayonet', 100]],
+  ];
+
+      pyramidDefs.starter = [
+    [['SoldierSupplies', 200], ['Cloth', 1500]],
+    [['RifleC', 60], ['RifleAmmo', 120], ['Bandages', 100], ['Shovel', 20]],
+    [['FirstAidKit', 10], ['TraumaKit', 10], ['BloodPlasma', 50], ['MedicUniformC', 15]],
+    [['ATRPGLightC,StickyBomb', 30],['GasMask', 20], ['GasMaskFilter', 40],['Radio', 20],['WorkWrench', 10], ['GrenadeC', 40]],
+  ];
+
+        pyramidDefs.extendedConflict = [
+    [['SoldierSupplies', 300], ['Cloth', 3000]],
+    [['RifleC', 100], ['RifleAmmo', 200], ['Bandages', 200], ['GrenadeC', 100]],
+    [['ATRPGLightC,StickyBomb', 100], ['FirstAidKit', 40], ['TraumaKit', 40], ['BloodPlasma', 150], ['MedicUniformC', 60]],
+    [['HEGrenade,HELaunchedGrenade', 250],['GrenadeLauncherC', 50],['RifleAutomaticC',60],['SMGC', 50], ['SMGAmmo', 100], ['Binoculars', 20]],
+    [['ATRPGC,ATRPGHeavyC', 30], ['ATRPGAmmo', 80], ['Shovel', 20], ['Radio', 20], ['MGC', 40], ['MGAmmo', 100], ['GasMask', 80], ['GasMaskFilter', 200]],
+    [['GreenAsh', 100],['GrenadeUniformC', 50],['AssaultRifleHeavyC', 100], ['AssaultRifleAmmo', 160], ['LightTankAmmo', 100], ['TankUniformC', 60], ['WorkWrench', 20],['EngineerUniformC', 30]],
+    [['TankMine', 50], ['BarbedWireMaterials', 40], ['SandbagMaterials',  40], ['ATAmmo', 100], ['Tripod', 20], ['MGTC,ISGTC', 20], ['ScoutUniformC', 60], ['SmokeGrenade',60], ['RadioBackpack',10],['Bayonet', 100]],
+  ];
   const pyramidDef = pyramidDefs[definition] || pyramidDefs.ucfPyramid;
   pyramidDef.map(row => {
     const rowDiv = document.createElement('div');
@@ -471,7 +497,7 @@ function outputTotals() {
           itemDiv.appendChild(item.collection[0].iconBox.canvas)
         } else {
           const fallbackImg = document.createElement('img');
-          fallbackImg.src = `./foxhole/inferno/icons/${item.CodeName}.png`;
+          fallbackImg.src = `./foxhole/infantry-61/icons/${item.CodeName}.png`;
           fallbackImg.width = 42;
           fallbackImg.height = 42;
           fallbackImg.alt = item.name;
