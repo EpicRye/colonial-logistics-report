@@ -1,12 +1,12 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <title>Foxhole Logi Pyramid</title>
+  <title>Colonial Logistics Report</title>
   <meta charset="utf-8" />
   <meta name="description" content="Calculate your logi deliveries with screenshots" />
   <meta name="referrer" content="same-origin" />
 
-  <link rel="icon" href="favicon.png" type="image/x-icon" />
+  <link rel="icon" href="favicon.ico" type="image/x-icon" />
 
   <link rel="stylesheet" href="includes/main.css" />
 
@@ -33,13 +33,11 @@
     </label>
   </form>
   <div class='top-menu'>
-    <button class='copy-stockpile'>82dk copy</button>
     <button class="reset-pyramid">Reset</button>
     <label class='filter-full'>Filter<input name='filter-full' type='checkbox'></label>
     <select name='definition'>
       <option disabled>Pyramids</option>
-      <option value='fmat'>FMAT</option>
-      <option value='fmatBasic'>FMAT Basic</option>
+      <option value='ucfPyramid'>UCF Pyramid</option>
     </select>
     <select name='format'>
       <option disabled>Metric Format</option>
@@ -58,15 +56,15 @@
       <span style="color:goldenrod;">◼</span> 50-100% |
       <span style="color:darkgreen;">◼</span> 100%+
     </div>
-    <span class='snow'>*</span> Only supply when snowing in region.
   </div>
   <div style="display:flex;">
     <div class="render"></div>
     <div style="display:none" class="report"></div>
   </div>
   <footer>
+    <p>Colonialification by [UCF]EpicRye</p>
     <p>Created by [82DK]BagOfDoom using <a href="https://github.com/GICodeWarrior/fir">fir</a></p>
-    <p>Suggestions and issues can be posted on <a href="https://github.com/Shard/fir/issues">github</a></p>
+    <p>Suggestions and issues can be posted on <a href="https://github.com/EpicRye/colonial-logistics-report/issues">github</a></p>
     <p><a href="https://www.foxholegame.com/">Foxhole</a> and it's IP is owned by <a href="https://www.siegecamp.com/">Siege Camp</a></p>
   </footer>
   <div id="help" class='hidden'>
