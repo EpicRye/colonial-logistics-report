@@ -13,7 +13,7 @@ export async function init(resources, icon_model_url, quantity_model_url) {
   res = resources;
   ICON_MODEL_URL = icon_model_url;
   QUANTITY_MODEL_URL = quantity_model_url;
-
+  
   const ready = new Promise(function(resolve) {
     if (document.readyState != 'loading') {
       resolve();
@@ -21,7 +21,7 @@ export async function init(resources, icon_model_url, quantity_model_url) {
       window.addEventListener('DOMContentLoaded', () => resolve());
     }
   });
-
+  
   await Promise.all([...Object.values(res), ready]).then(function (results) {
     let index = 0;
     for (const key of Object.keys(res)) {
@@ -36,26 +36,7 @@ export async function init(resources, icon_model_url, quantity_model_url) {
     document.querySelector('.render').innerHTML = '';
     outputTotals();
   });
-  // 82DK Stockpile tracking
-  document.querySelector('.copy-stockpile').addEventListener('click', () => {
-    const stockpile = stockpiles[0];
-    let text = '';
-    console.log('stockpile', stockpile)
-    copyDefs.forEach(function([SheetName, CodeName]) {
-      const details = res.CATALOG.find(e => e.CodeName == CodeName);
-      if(!details){
-        text += "x\n";
-        console.warn('No details found for', SheetName, CodeName);
-        return;
-      }
-      const inventory = stockpile.contents.find(e => e.CodeName == CodeName && e.isCrated === true);
-      //console.log(CodeName, inventory);
-      const amountStored = inventory ? inventory.quantity : 0;
-      text += amountStored + "\n";
-    });
-    copyTextToClipboard(text.trim());
-  })
-
+  
   document.querySelector('select[name=format]').addEventListener('change', () => {
     outputTotals();
   });
@@ -72,7 +53,7 @@ export async function init(resources, icon_model_url, quantity_model_url) {
   if(document.querySelector('input[name=filter-full]').checked){
     document.querySelector('#pyramid').classList.add('filter-full');
   }
-
+  
   document.querySelector('a[href="#help"]').addEventListener('click', (e) => {
     e.preventDefault();
     document.querySelector('#help').classList.toggle('hidden');
@@ -83,42 +64,7 @@ export async function init(resources, icon_model_url, quantity_model_url) {
       document.querySelector('#help').classList.toggle('hidden');
     }
   });
-
-}
-
-function fallbackCopyTextToClipboard(text) {
-  var textArea = document.createElement("textarea");
-  textArea.value = text;
-
-  // Avoid scrolling to bottom
-  textArea.style.top = "0";
-  textArea.style.left = "0";
-  textArea.style.position = "fixed";
-
-  document.body.appendChild(textArea);
-  textArea.focus();
-  textArea.select();
-
-  try {
-    var successful = document.execCommand('copy');
-    var msg = successful ? 'successful' : 'unsuccessful';
-    console.log('Fallback: Copying text command was ' + msg);
-  } catch (err) {
-    console.error('Fallback: Oops, unable to copy', err);
-  }
-
-  document.body.removeChild(textArea);
-}
-function copyTextToClipboard(text) {
-  if (!navigator.clipboard) {
-    fallbackCopyTextToClipboard(text);
-    return;
-  }
-  navigator.clipboard.writeText(text).then(function() {
-    console.log('Async: Copying to clipboard was successful!');
-  }, function(err) {
-    console.error('Async: Could not copy text: ', err);
-  });
+  
 }
 
 export function registerDefaultListeners() {
@@ -126,7 +72,7 @@ export function registerDefaultListeners() {
     // Prevent a submit that would lose our work
     e.preventDefault();
   });
-
+  
   window.addEventListener('paste', function(event) {
     const files = event.clipboardData.files || [];
     const images = Array.prototype.filter.call(files, f => f.type.startsWith('image/'));
@@ -136,7 +82,7 @@ export function registerDefaultListeners() {
     stockpiles = [];
     imagesProcessed = 0;
     imagesTotal = 0;
-
+    
     addImages(images);
   });
 }
@@ -149,12 +95,12 @@ export function addInputListener(input) {
     stockpiles = [];
     imagesProcessed = 0;
     imagesTotal = 0;
-
+    
     const files = Array.from(this.files).sort(function(a, b) {
       // Consistent ordering based on when each screenshot was captured
       return a.lastModified - b.lastModified;
     });
-
+    
     addImages(files);
   });
 }
@@ -170,10 +116,10 @@ export function addDownloadTotalsListener(downloadTotals) {
     }).then(function(canvas) {
       const link = document.createElement('a');
       link.href = canvas.toDataURL();
-
+      
       const time = new Date();
       link.download = time.toISOString() + "_" + 'foxhole-inventory-totals.png';
-
+      
       document.body.appendChild(link);
       link.click();
       document.body.removeChild(link);
@@ -200,15 +146,15 @@ export function addDownloadTSVListener(downloadTSV) {
         if (element.quantity == 0) {
           continue;
         }
-
+        
         const details = res.CATALOG.find(e => e.CodeName == element.CodeName);
         if (typeof details == 'undefined') {
           continue;
         }
         const perCrate = ((details.ItemDynamicData || {}).QuantityPerCrate || 3)
-            + (details.VehiclesPerCrateBonusQuantity || 0);
+        + (details.VehiclesPerCrateBonusQuantity || 0);
         const perUnit = element.isCrated ? perCrate : 1;
-
+        
         items.push([
           stockpile.label.textContent.trim(),
           stockpile.header.name || '',
@@ -223,7 +169,7 @@ export function addDownloadTSVListener(downloadTSV) {
         ].join('\t'));
       }
     }
-
+    
     const encoder = new TextEncoder();
     function toBinary(string) {
       // Expand UTF-8 characters to equivalent bytes
@@ -234,13 +180,13 @@ export function addDownloadTSVListener(downloadTSV) {
       return byteString;
     }
     const base64TSV = window.btoa(toBinary(items.join('\n')));
-
+    
     const link = document.createElement('a');
     link.href = `data:text/tab-separated-values;base64,${base64TSV}`;
-
+    
     const time = new Date();
     link.download = time.toISOString() + "_" + 'foxhole-inventory.tsv';
-
+    
     document.body.appendChild(link);
     link.click();
     document.body.removeChild(link);
@@ -278,12 +224,12 @@ export function getAppendGoogleRows(format="gapi") {
         continue;
       }
       isEmpty = false;
-
+      
       const details = res.CATALOG.find(e => e.CodeName == element.CodeName);
       if (typeof details == 'undefined') {
         continue;
       }
-
+      
       if (format == "gapi") {
         rows.push({
           values: [
@@ -336,13 +282,13 @@ export function getAppendGoogleRows(format="gapi") {
 
 function addImages(files) {
   imagesTotal += files.length;
-
+  
   const collage = document.querySelector('div.render');
   document.querySelector('.processing-status span').textContent = imagesProcessed + " of " + imagesTotal;
-
+  
   files.forEach(function(file) {
     const container = document.createElement('div');
-
+    
     const image = document.createElement('img');
     image.style.display = 'none';
     image.addEventListener('load', getProcessImage('@@UNUSED', file.lastModified), { once: true });
@@ -353,83 +299,48 @@ function addImages(files) {
   });
 }
 
-function gIds() {
-  if (location.host == 'fir.gicode.net') {
-    return {
-      clientId: '432701922574-m5mkt6dp2bp8hbt27fuoo4s7bfhpq3jr.apps.googleusercontent.com',
-      apiKey: 'AIzaSyB1FQ72hY28Ovc1mPbrBBVspj68-BvICOo',
-      appId: '432701922574',
-    };
-  }
-
-  return {
-    clientId: '977197840282-f5c1jf3f4rumgnbv4rdm61l85gs0ue7m.apps.googleusercontent.com',
-    apiKey: 'AIzaSyB0oavB9RY-kegde_YDLTM6H2PHhu5z7t4',
-    appId: '977197840282',
-  };
-}
 
 function getProcessImage(label, lastModified) {
   return function() {
     return processImage.call(this, label, lastModified);
   };
-
+  
   async function processImage(_label, lastModified) {
     URL.revokeObjectURL(this.src);
-
+    
     const canvas = document.createElement('canvas');
     canvas.width = this.width;
     canvas.height = this.height;
-
+    
     const context = canvas.getContext('2d', { alpha: false, willReadFrequently: true });
     context.drawImage(this, 0, 0);
-
+    
     const stockpile = await Screenshot.process(canvas, ICON_MODEL_URL, res.ICON_CLASS_NAMES, QUANTITY_MODEL_URL, res.QUANTITY_CLASS_NAMES);
     if (stockpile) {
-      document.querySelector('div.render span').remove();
+      if (document.querySelector('div.render span')){
+        document.querySelector('div.render span').remove();
+      }
       this.src = stockpile.box.canvas.toDataURL();
       stockpile.lastModified = lastModified;
       stockpiles.push(stockpile);
     }
-
+    
     this.style.display = '';
     ++imagesProcessed;
     document.querySelector('.processing-status span').textContent = imagesProcessed + " of " + imagesTotal;
-
+    
     if (imagesProcessed == imagesTotal) {
       window.stockpiles = stockpiles;
-      window.stockpilesJSON = JSON.stringify(stockpiles.map(function(s) {
-        return {
-          file: s.label.textContent.trim(),
-          version: window.FIR_CATALOG_VERSION,
-          box: {
-            x: s.box.x,
-            y: s.box.y,
-            width: s.box.width,
-            height: s.box.height,
-          },
-          header: {
-            type: s.header.type || null,
-            name: s.header.name || null,
-          },
-          contents: s.contents.map(function(e) {
-            return {
-              CodeName: e.CodeName,
-              quantity: e.quantity,
-              isCrated: e.isCrated,
-            };
-          }),
-        };
-      }), undefined, 2);
-
+      window.stockpilesJSON = JSON.stringify(stockpiles.map((s) => processStockpile(s)), undefined, 2);
+      
       outputTotals();
-
+      
       // Timeout gives the UI a chance to reflow
       setTimeout(function() {
         const maxHeight = Array.from(document.querySelectorAll('div.render > div'))
-            .map(e => e.getBoundingClientRect().height)
-            .reduce((a, b) => Math.max(a, b), 0);
-
+        .map(e => e.getBoundingClientRect().height)
+        .reduce((a, b) => Math.max(a, b), 0);
+        
         const render = document.querySelector('div.render');
         if (maxHeight > render.clientHeight) {
           const margins = render.getBoundingClientRect().height - render.clientHeight;
@@ -443,30 +354,30 @@ function getProcessImage(label, lastModified) {
 function outputTotals() {
   const totals = {};
   const categories = {};
-
+  
   for (const stockpile of stockpiles) {
     for (const element of stockpile.contents) {
       let key = element.CodeName;
       if (element.isCrated) {
         key += '-crated';
       }
-
+      
       if (!totals[key]) {
         const catalogItem = res.CATALOG.find(e=>e.CodeName == element.CodeName);
         if (!catalogItem) {
           console.log(`${element.CodeName} missing from catalog`);
           continue;
         }
-
+        
         const itemCategory = (catalogItem.ItemCategory || '').replace(/^EItemCategory::/, '');
         const vehicleCategory = catalogItem.VehicleProfileType ? 'Vehicles' : undefined;
         const structureCategory = catalogItem.BuildLocationType
-            || (catalogItem.ProfileType == 'EStructureProfileType::Shippable') ? 'Structures' : undefined;
-
+        || (catalogItem.ProfileType == 'EStructureProfileType::Shippable') ? 'Structures' : undefined;
+        
         const category = itemCategory || vehicleCategory || structureCategory;
         categories[category] ||= [];
         categories[category].push(key);
-
+        
         totals[key] = {
           CodeName: element.CodeName,
           isCrated: element.isCrated,
@@ -480,7 +391,7 @@ function outputTotals() {
       totals[key].collection.push(element);
     }
   }
-
+  
   const categoryOrder = {
     SmallArms: 1,
     HeavyArms: 2,
@@ -495,7 +406,7 @@ function outputTotals() {
   const sortedCategories = Object.keys(categories).sort(function(a, b) {
     return (categoryOrder[a] || Infinity) - (categoryOrder[b] || Infinity);
   });
-
+  
   // Pyramid  start
   const format = document.querySelector('select[name=format]').value;
   const definition = document.querySelector('select[name=definition]').value;
@@ -506,7 +417,7 @@ function outputTotals() {
   } else {
     pyramid.classList.remove('empty');
   }
-
+  
   const pyramidDefs = {}
   pyramidDefs.ucfPyramid = [
     [['SoldierSupplies', 300], ['Cloth', 3000]],
@@ -521,21 +432,21 @@ function outputTotals() {
   pyramidDef.map(row => {
     const rowDiv = document.createElement('div');
     rowDiv.classList.add('row');
-
+    
     row.map(([CodeNames, desired]) => {
       // Items (including groups of items)
       let desiredCrates = desired;
       const itemNames = CodeNames.split(',');
       const itemDiv = document.createElement('div');
       itemDiv.classList.add('item');
-
+      
       let total = 0;
       let totalCrates = 0;
       for (const itemName of itemNames) {
         let item = totals[itemName];
         const catalogItem = res.CATALOG.find(e=>e.CodeName == itemName);
         const crateAmount = catalogItem.ItemDynamicData.QuantityPerCrate
-
+        
         // Fallback item definition and image
         if(!item) {
           if (!catalogItem) {
@@ -554,7 +465,7 @@ function outputTotals() {
         totalCrates += Math.floor(total / crateAmount)
         itemDiv.classList.add(item.category);
         itemDiv.title = itemDiv.title + `${item.name} or\n`
-
+        
         // Icon Image
         if( item.collection ){
           itemDiv.appendChild(item.collection[0].iconBox.canvas)
@@ -580,7 +491,7 @@ function outputTotals() {
       }
       itemDiv.appendChild(labelSpan);
       itemDiv.title = itemDiv.title.trim().slice(0, -2).trim();
-
+      
       // Status
       if(total < desired / 4) {
         itemDiv.classList.add('depleted');
@@ -596,7 +507,7 @@ function outputTotals() {
     pyramid.appendChild(rowDiv);
   });
   // Pyramid  end
-
+  
   const report = document.querySelector('div.report');
   report.innerHTML = '';
   for (const category of sortedCategories) {
@@ -611,7 +522,7 @@ function outputTotals() {
       }
       return totals[b].total - totals[a].total;
     });
-
+    
     const headerPrinted = {};
     for (const key of keys) {
       const type = totals[key];
@@ -621,35 +532,66 @@ function outputTotals() {
           columnBreak.classList.add('column-break');
           report.appendChild(columnBreak);
         }
-
+        
         const cell = document.createElement('div');
         const quantity = document.createElement('div');
         cell.appendChild(quantity);
-
+        
         const name = document.createElement('h3');
         const suffix = type.isCrated ? ' (crated)' : '';
         name.textContent = category.replace(/([A-Z])/g, ' $1').trim() + suffix;
         cell.appendChild(name);
         report.appendChild(cell);
-
+        
         headerPrinted[type.isCrated] = true;
       }
-
+      
       const cell = document.createElement('div');
       const quantity = document.createElement('div');
       quantity.textContent = type.total;
       cell.appendChild(quantity);
-
+      
       //cell.appendChild(type.collection[0].iconBox.canvas);
-
+      
       const name = document.createElement('div');
       name.textContent = type.name;
       cell.appendChild(name);
-
+      
       report.appendChild(cell);
     }
   }
 }
+
+function processStockpile (s){
+  let name = "N/A"
+
+  if(s.label && s.label.textConent){
+    name = s.label.textContent.trim()
+  }
+
+  return {
+    file: name,
+    version: window.FIR_CATALOG_VERSION,
+    box: {
+      x: s.box.x,
+      y: s.box.y,
+      width: s.box.width,
+      height: s.box.height,
+    },
+    header: {
+      type: s.header.type || null,
+      name: s.header.name || null,
+    },
+    contents: s.contents.map(function(e) {
+      return {
+        CodeName: e.CodeName,
+        quantity: e.quantity,
+        isCrated: e.isCrated,
+      };
+    }),
+  };
+}
+
 
 export function getStockpiles() {
   return stockpiles;
